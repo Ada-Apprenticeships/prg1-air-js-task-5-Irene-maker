@@ -1,0 +1,12 @@
+Route        | Plane Type | Total Seats Booked | Expense | Income      | Profit      | Error                                                                                                
+-------------+------------+--------------------+---------+-------------+-------------+------------------------------------------------------------------------------------------------------
+MAN to JFK   | MNB        | 0                  | £0.00   | £75,636.00  | £75,636.00  | Overbooking or invalid seat numbers.                                                                 
+LGW to ORY   | LNB        | 0                  | £0.00   | £132,500.00 | £132,500.00 | Overbooking or invalid seat numbers.                                                                 
+MAN to MAD   | MNB        | 0                  | £0.00   | £51,200.00  | £51,200.00  | Overbooking or invalid seat numbers.                                                                 
+LGW to AMS   | MNB        | 0                  | £0.00   | £26,400.00  | £26,400.00  | Overbooking or invalid seat numbers.                                                                 
+MAN to CAI   | LNB        | 0                  | £0.00   | £105,500.00 | £105,500.00 | Overbooking or invalid seat numbers.                                                                 
+LGW to JFKKK | MWB        | 0                  | £0.00   | £84,400.00  | £84,400.00  | Invalid route: LGW to JFKKK. Overbooking or invalid seat numbers. Invalid distance or mileage issue. 
+MAN to ORY   | MNB        | 0                  | £0.00   | £26,490.00  | £26,490.00  | Overbooking or invalid seat numbers.                                                                 
+LGW to MAD   | LNB        | 0                  | £0.00   | £76,300.00  | £76,300.00  | Overbooking or invalid seat numbers.                                                                 
+MAN to AMSSS | MNB        | 0                  | £0.00   | £11,650.00  | £11,650.00  | Invalid route: MAN to AMSSS. Overbooking or invalid seat numbers. Invalid distance or mileage issue. 
+LGW to CAI   | MWB        | 0                  | £0.00   | £236,500.00 | £236,500.00 | Overbooking or invalid seat numbers.                                                                 

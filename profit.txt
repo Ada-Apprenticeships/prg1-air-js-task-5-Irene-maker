@@ -1,0 +1,12 @@
+Route      | Plane Type | Total Seats Booked | Expense    | Income      | Profit     | Error    
+-----------+------------+--------------------+------------+-------------+------------+----------
+MAN to JFK | LNB        | 164                | £61,716.48 | £75,636.00  | £13,919.52 | No errors
+LGW to ORY | MNB        | 128                | £3,328.00  | £21,600.00  | £18,272.00 | No errors
+MAN to MAD | MWB        | 164                | £11,767.00 | £58,400.00  | £46,633.00 | No errors
+LGW to AMS | MNB        | 106                | £3,078.24  | £14,400.00  | £11,321.76 | No errors
+MAN to CAI | LNB        | 181                | £47,385.80 | £97,800.00  | £50,414.20 | No errors
+LGW to JFK | MWB        | 160                | £44,664.00 | £84,400.00  | £39,736.00 | No errors
+MAN to ORY | MNB        | 117                | £5,709.60  | £17,240.00  | £11,530.40 | No errors
+LGW to MAD | LNB        | 184                | £15,662.08 | £66,150.00  | £50,487.92 | No errors
+MAN to AMS | MNB        | 95                 | £3,686.00  | £11,650.00  | £7,964.00  | No errors
+LGW to CAI | MWB        | 196                | £34,241.20 | £114,400.00 | £80,158.80 | No errors
