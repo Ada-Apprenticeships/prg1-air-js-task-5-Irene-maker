@@ -23,7 +23,7 @@ const potentialBookings = [
 ];
 
 
-// Jest setup
+
 describe('Profit Chart Function Tests', () => {
 
     test("T01_ValidRouteCreation", () => {
@@ -72,7 +72,6 @@ describe('Profit Chart Function Tests', () => {
     });
 
     test("T08_CalculateIncome", () => {
-        // Correct expected value should be 50000 according to the provided logic in `calculateIncome`
         expect(calculateIncome(100, 50, 10, 150, 500, 1000)).toBe(50000);
     });
 
