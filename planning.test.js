@@ -10,6 +10,17 @@ const {
     buildProfitChart,
 } = require('./planning.js');
 
+// Mock data for tests
+// const planeData = [
+//     ['Large narrow body', '£100', 6000, 200, 50, 10],
+//     ['Medium narrow body', '£90', 5000, 180, 50, 10],
+// ];
+
+// const potentialBookings = [
+//     ['MAN', 'JFK', 'Large narrow body', '100', '50', '10', '150', '500', '1000'],
+//     ['MAN', 'XYZ', 'Medium narrow body', '200', '50', '10', '150', '500', '1000'], // Invalid route
+// ];
+
 // Jest setup
 describe('Profit Chart Function Tests', () => {
 
@@ -27,11 +38,13 @@ describe('Profit Chart Function Tests', () => {
     });
 
     test("T03_CalculateTotalSeats_ValidSeats", () => {
-        expect(calculateTotalSeats(100, 50, 10)).toBe(160);
+        // Simulate potential bookings with valid values
+        expect(calculateTotalSeats(100, 50, 10, planeData, potentialBookings)).toBe(160);
     });
 
     test("T04_CalculateTotalSeats_Overbooking", () => {
-        expect(calculateTotalSeats(200, 150, 50)).toBe(0); // Assuming planeData max exceeded
+        // Test overbooking with values that exceed the maximum for a plane
+        expect(calculateTotalSeats(200, 150, 50, planeData, potentialBookings)).toBe(0); // Overbooking scenario
     });
 
     test("T05_GetDistance_ValidDistance", () => {
@@ -66,19 +79,11 @@ describe('Profit Chart Function Tests', () => {
     });
 
     test("T10_BuildProfitChart_WithErrors", () => {
-        const potentialBookings = [
-            ['MAN', 'JFK', 'Large narrow body', '100', '50', '10', '150', '500', '1000'],
-            ['MAN', 'XYZ', 'Medium narrow body', '200', '50', '10', '150', '500', '1000'], // Invalid route
-        ];
         const airportsData = [
             ['JFK', 'John F. Kennedy', '5500', '5700'],
             ['ORY', 'Orly', '500', '520'],
         ];
-        const planeData = [
-            ['Large narrow body', '£100', 6000, 200, 50, 10],
-            ['Medium narrow body', '£90', 5000, 180, 50, 10],
-        ];
-
+        
         const profitChart = buildProfitChart(potentialBookings, airportsData, planeData);
         expect(profitChart.length).toBe(3);  // Header + 2 rows
 

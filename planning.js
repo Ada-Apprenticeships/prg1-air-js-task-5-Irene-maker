@@ -3,8 +3,8 @@ const fs = require('fs');
 const airportsData = readCsv('airports.csv');
 const planeData = readCsv('aeroplanes.csv');
 
-// const potentialBookings = readCsv('valid_flight_data.csv');
-const potentialBookings = readCsv('invalid_flight_data.csv');
+const potentialBookings = readCsv('valid_flight_data.csv');
+// const potentialBookings = readCsv('invalid_flight_data.csv');
 
 function readCsv(filename, delimiter = ',') {
     try {
@@ -245,18 +245,18 @@ function buildProfitChart(potentialBookings, airportsData, planeData) {
 const profit = buildProfitChart(potentialBookings, airportsData, planeData);
 const profitFormatted = formatProfitChart(profit);
 
-// fs.writeFile('profit.txt', profitFormatted, 'utf8', err => {
-//     if (err) {
-//         console.error("Error writing to file:", err.message);
-//     } else {
-//         console.log("Profit chart with error handling successfully written to profit.txt");
-//     }
-// });
-
-fs.writeFile('profitError.txt', profitFormatted, 'utf8', err => {
+fs.writeFile('profit.txt', profitFormatted, 'utf8', err => {
     if (err) {
         console.error("Error writing to file:", err.message);
     } else {
-        console.log("Profit chart with error handling successfully written to profitError.txt");
+        console.log("Profit chart with error handling successfully written to profit.txt");
     }
 });
+
+// fs.writeFile('profitError.txt', profitFormatted, 'utf8', err => {
+//     if (err) {
+//         console.error("Error writing to file:", err.message);
+//     } else {
+//         console.log("Profit chart with error handling successfully written to profitError.txt");
+//     }
+// });
