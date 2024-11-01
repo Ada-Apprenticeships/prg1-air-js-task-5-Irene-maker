@@ -4,7 +4,7 @@
   "description": "A new airline wants to start running commercial passenger flights. In order to assess the feasibility of proposed flights they want a program that can help calculate the likely profitability of running a flight between a UK and an overseas airport. The UK airport will be either Manchester (MAN) or London Gatwick (LGW).",
   "main": "planning.js",
   "scripts": {
-    "test": "jest planning.js"
+    "test": "jest planning.test.js"
   },
   "author": "",
   "license": "ISC",

@@ -2,9 +2,8 @@ const fs = require('fs');
 
 const airportsData = readCsv('airports.csv');
 const planeData = readCsv('aeroplanes.csv');
-
 const potentialBookings = readCsv('valid_flight_data.csv');
-// const potentialBookings = readCsv('invalid_flight_data.csv');
+
 
 function readCsv(filename, delimiter = ',') {
     try {
@@ -28,19 +27,18 @@ function readCsv(filename, delimiter = ',') {
 }
 
 // Helper functions
+
 function createRoute(origin, destination) {
-    // Define valid airport codes inside the function
     const validOrigins = ['MAN', 'LGW'];
     const validDestinations = ['JFK', 'ORY', 'MAD', 'AMS', 'CAI'];
-   
-    // Check if both origin and destination are valid
+
     if (!validOrigins.includes(origin)) {
         console.error(`Invalid origin code: ${origin}`);
-        return null; // or throw an error
+        return null; 
     }
     if (!validDestinations.includes(destination)) {
         console.error(`Invalid destination code: ${destination}`);
-        return null; // or throw an error
+        return null; 
     }
     return `${origin} to ${destination}`;
 }
@@ -57,34 +55,32 @@ function getAircraftType(type) {
 function calculateTotalSeats(economy, business, firstClass, planeData, potentialBookings) {
     
     function validateSeatsRecords(planeData,potentialBookings){
+        // looping through potentialBookings to find plane type match 
         for (let record of potentialBookings) {
-            
             const planeType = record[2];
-            const es = parseInt(record[3]); // economy seats booked
-            const bs = parseInt(record[4]); // business seats booked
-            const fs = parseInt(record[5]);
+            const ecoSeats = parseInt(record[3]); 
+            const bizSeats = parseInt(record[4]); 
+            const firstSeats = parseInt(record[5]);
 
-            let maxESeat = null
-            let maxBSeat = null
-            let maxFSeat = null
-
+            let maxEcoSeat = null
+            let maxBizSeat = null
+            let maxFirstSeat = null
+            // looping through planeData to get max seat for a specific plane type 
             for (let i = 0; i < planeData.length; i++) {
                 if (planeData[i][0] === planeType) {
-                    maxESeat = parseInt(planeData[i][3]);
-                    maxBSeat = parseInt(planeData[i][4]);
-                    maxFSeat = parseInt(planeData[i][5]);
+                    maxEcoSeat = parseInt(planeData[i][3]);
+                    maxBizSeat = parseInt(planeData[i][4]);
+                    maxFirstSeat = parseInt(planeData[i][5]);
                     break;
                 }
             }
-
-            if (es > maxESeat || bs > maxBSeat || fs > maxFSeat){
+            if (ecoSeats > maxEcoSeat || bizSeats > maxBizSeat || firstSeats > maxFirstSeat){
                 console.error ('overbooking')
                 return false;
             }
         }
         return true;
     }
-
     if (!validateSeatsRecords(planeData, potentialBookings)) {
         return 0; // Stop execution if overbooking detected
     }
@@ -106,14 +102,13 @@ function getDistance(origin, destination, airportsData) {
 }
 
 function calculateExpense(distance, pricePerSeat,totalSeats) {
-    // Strip any £ sign or commas from price per seat and convert to float
+    // Stripping any £ sign or commas from price per seat 
     const numericPricePerSeat = parseFloat(pricePerSeat.replace(/[£,]/g, ''));
     
     if (isNaN(numericPricePerSeat) || isNaN(distance)) {
         console.error(`Invalid input for expense calculation: distance=${distance}, pricePerSeat=${pricePerSeat}`);
-        return 0; // Return 0 if invalid inputs
+        return 0; 
     }
-
     const expense = ((numericPricePerSeat * distance) / 100) * totalSeats;
     return parseFloat(expense.toFixed(2));
 }
@@ -128,7 +123,7 @@ function formatCurrency(amount) {
     return '£' + amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Convert the 2D profit chart array into a formatted string
+// Converting the 2D profit chart array  for aesthetics and improving data readbility
 function formatProfitChart(profitChart) {
     const headers = profitChart[0];
     const rows = profitChart.slice(1);
@@ -153,7 +148,7 @@ function formatProfitChart(profitChart) {
     return `${headerRow}\n${separator}\n${dataRows}`;
 }
 
-// Main function to build the profit chart, with error handling
+// Main function to build the final profit chart, with error handling ability
 function buildProfitChart(potentialBookings, airportsData, planeData) {
     const profitChart = [
         ["Route", "Plane Type", "Total Seats Booked", "Expense", "Income", "Profit", "Error"]
@@ -165,42 +160,40 @@ function buildProfitChart(potentialBookings, airportsData, planeData) {
         // Initialize error message and default row data
         let error = '';
         let route = '';
-        let planeAbbreviation = ''; // Declare once outside conditional
+        let planeAbbreviation = ''; 
         let totalSeats = 0, expense = 0, income = 0, profit = 0;
 
-
-        // 1. Route validation
+        // Route validation
         route = createRoute(origin, destination);
         if (!route) {
             error += `Invalid route: ${origin} to ${destination}. ` ;
         }
 
-        // 2. Plane Type and Abbreviation
+        //Plane Type and Abbreviation
         const [planeTypeFull, abbreviation] = getAircraftType(aircraftType);
-        planeAbbreviation = abbreviation || "N/A";  // Assign planeAbbreviation once here
+        planeAbbreviation = abbreviation || "N/A";  
 
         if (planeAbbreviation === "invalid plane type") {
             error += `Invalid aircraft type: ${aircraftType}. ` ;
         }
 
-        // 3, 4, 5. Seats Booked with Validation
+        //Seats Booked with Validation
         const eSeatsBooked = parseInt(economySeats);
         const bSeatsBooked = parseInt(businessSeats);
         const fSeatsBooked = parseInt(firstClassSeats);
-
 
         totalSeats = calculateTotalSeats(eSeatsBooked, bSeatsBooked, fSeatsBooked, planeData, potentialBookings);
         if (totalSeats === 0) {
             error += `Overbooking or invalid seat numbers. ` ;
         }
 
-        // 6. Distance and Expense Calculation
+        //Distance and Expense Calculation
         const distance = getDistance(origin, destination, airportsData);
         if (distance === 0) {
             error += `Invalid distance or mileage issue. ` ;
         }
 
-        // 7. Price per Seat and Expense Calculation
+        // Price per Seat and Expense Calculation
         const planeInfo = planeData.find(plane => plane[0] === aircraftType);
         if (planeInfo) {
             const pricePerSeat = planeInfo[1];
@@ -209,7 +202,7 @@ function buildProfitChart(potentialBookings, airportsData, planeData) {
             error += ` Missing price data for aircraft type: ${aircraftType}. ` ;
         }
 
-        // 8. Income Calculation
+        //Income Calculation
         if (!isNaN(parseFloat(economyPrice)) && !isNaN(parseFloat(businessPrice)) && !isNaN(parseFloat(firstClassPrice))) {
             income = calculateIncome(
                 eSeatsBooked,
@@ -241,22 +234,25 @@ function buildProfitChart(potentialBookings, airportsData, planeData) {
 
 
 
-// Write to profitChartWithErrors.txt with error details
+// Synchronous version of writing to file
 const profit = buildProfitChart(potentialBookings, airportsData, planeData);
 const profitFormatted = formatProfitChart(profit);
+try {
+    fs.writeFileSync('profit.txt', profitFormatted, 'utf8');
+    console.log("Profit chart with error handling successfully written to profit.txt");
+} catch (err) {
+    console.error("Error writing to file:", err.message);
+};
 
-fs.writeFile('profit.txt', profitFormatted, 'utf8', err => {
-    if (err) {
-        console.error("Error writing to file:", err.message);
-    } else {
-        console.log("Profit chart with error handling successfully written to profit.txt");
-    }
-});
-
-// fs.writeFile('profitError.txt', profitFormatted, 'utf8', err => {
-//     if (err) {
-//         console.error("Error writing to file:", err.message);
-//     } else {
-//         console.log("Profit chart with error handling successfully written to profitError.txt");
-//     }
-// });
+// for test file 
+module.exports = {
+    readCsv,
+    createRoute,
+    getAircraftType,
+    calculateTotalSeats,
+    getDistance,
+    calculateExpense,
+    calculateIncome,
+    formatCurrency,
+    buildProfitChart
+  }
